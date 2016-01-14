@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    
+    <!-- display-name 项目名称 -->
+    <display-name>Archetype Created Web Application</display-name>
+    
+    <!-- listener元素用来注册一个监听器，可以收到事件发生时间以及用作相应的通知
+    listener元素主要用于定义listener接口，主要子元素为<listener-class>
+     -->
+     <!-- 配置ContextLoaderListener表示，该工程要以spring的方式启动
+     动时会默认在/WEB-INF目录下查找applicationContext.xml作为spring容器的配置文件
+      -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- context param含有一对参数名和参数值，用于servlet上下文初始化参数，参数名在web应用中唯一 -->
+    <!-- param-name 设定环境参数context的名称，param-value设定对应的值 -->
+    <!-- Jsp中可以使用：${initParam.param_name} 获得所设定的参数
+    servlet 可以使用:
+    String param_name = getServletContext().getInitParameter("param_name");  
+    -->
+    <!-- param-value指定spring配置路径 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+	    <param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
+    </context-param>
+
+    <!-- 用servlet分配名称，对servlet或JSP页面给出名称和定制的URL，
+    使用servlet-mapping元素将定制的URL与刚分配的名称相关联 
+   以下表示<servlet-class>中的servlet已经得到了注册名mvc-dispatcher   
+    -->   
+    <!-- 配置DispatcherServlet表示，该工程将采用springmvc的方式
+    启动时也会默认在/WEB-INF目录下查找XXX-servlet.xml作为配置文件
+     --> 
+    <servlet>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <!-- servlet-mapping 定义servlet所对应的URL
+    <servlet-name>定义servlet名称
+    <url-pattern>定义所对应的URL
+     -->
+     <!-- url-pattern 前端拦截器将拦截所有文件 -->
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name><!-- 对应param-value值 -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

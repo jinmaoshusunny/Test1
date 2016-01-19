@@ -1,8 +1,8 @@
 package web.Controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
 @author*
@@ -10,18 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @return
 */
 @Controller
-public class LoginController {
-	@RequestMapping(value="hello.do")
-	public void index_jsp(ModelMap model)
+public class loginController {
+	@RequestMapping(value="/login.do")
+	public ModelAndView login_jsp()
 	{
-		System.out.println("Hello!");
-		model.addAttribute("yang", "yang Hello!!");
-		System.out.println("hello.jsp");
+		return (new ModelAndView("login"));
 	}
-	
-	
-	
-	
 
-	
 }

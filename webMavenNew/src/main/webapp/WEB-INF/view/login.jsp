@@ -8,19 +8,15 @@
 </head>
 <body >
 	<div style="background-image: url(../images/ChinaMobile.jpg)">
-		<c:out
-			value="Welcome to visit the website of The China Mobile On-line services,Enter your name and submit."></c:out>
-		<form action="login.do" method="post">
-			<table width="300" border="1">
-				<tr>
-					<td colspan="2">登录窗口</td>
-				</tr>
+		
+		<form action="message.do" method="post">
+			<table width="300" border="1">				
 				<tr>
 					<td>username:</td>
-					<td><input type="text" name="username" size="10"></td>
+					<td><input type="text" name="username"></td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="submit" name="submit" value="submit"></td>
+					<td><input type="submit" value="submit"></td>
 				</tr>
 			</table>
 		</form>

@@ -16,48 +16,36 @@ import web.Entity.UserInfo;
 @paramater*
 @return
 */
-public class DBOperate {
-	private String dbPath = "F:/WebMaven/webMavenNew/DBdata";
-	public DB db;
-	
-/*	public void addUserInfo(UserInfo  userinfo) {
-		boolean b = false;
-		try {			
-			Options options = new Options();
-			options.createIfMissing(true);
-			db = factory.open(new File(dbPath), options);			
-		}		catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} 
-		try {
-			db.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}	*/
+public class DBOperate {	
+	public DB db;	
+	private static String dbPath = "F:/WebMaven/webMavenNew/DBdata";
 	public ArrayList getUserInfo(UserInfo loginUserInfo) 
 	{
-		ArrayList<UserInfo> userList = new ArrayList<UserInfo>();	
-		DBIterator iterator = null;
-		try {
-			Options options = new Options();
-			options.createIfMissing(true);
-			db = factory.open(new File(dbPath), options);
-			iterator = db.iterator();
-			for (iterator.seekToFirst(); iterator.hasNext(); iterator.hasNext()) 
+	//	System.out.println("loginUserInfo.userName = "+loginUserInfo.getUserName());
+	//	System.out.println("loginUserInfo.loginTIme = "+loginUserInfo.getLoginTime());
+		
+		ArrayList<UserInfo> userList = new ArrayList<UserInfo>();			
+			try {
+				Options options = new Options();
+				options.createIfMissing(true);
+				db = factory.open(new File(dbPath), options);
+			} catch (IOException e1) {
+				System.out.println("db create failed");
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			db.put(bytes(loginUserInfo.getLoginTime()), bytes(loginUserInfo.getUserName()) );
+			DBIterator iterator = db.iterator(); 
+	//		System.out.println("levelDB create successfully!");
+			for (iterator.seekToFirst(); iterator.hasNext(); iterator.next()) 
 			{
-				String userName = asString(iterator.peekNext().getKey());
-				String loginTime = asString(iterator.peekNext().getValue());
+				String loginTime = asString(iterator.peekNext().getKey());
+				String userName = asString(iterator.peekNext().getValue());
+		//		System.out.println("dbUserName = "+userName+", dbLoginTime = "+loginTime);
 				UserInfo userinfo = new UserInfo(userName, loginTime);
 				userList.add(userinfo);
 			}
-			db.put(bytes(loginUserInfo.getUserName()), bytes(loginUserInfo.getLoginTime()));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		try {
 			iterator.close();
 			db.close();
@@ -66,7 +54,7 @@ public class DBOperate {
 			System.out.println("iterator close failed");
 			e.printStackTrace();
 		}
-		System.out.println("levelDB finished");
+	//	System.out.println("levelDB finished");
 		return userList;
 	}
 }

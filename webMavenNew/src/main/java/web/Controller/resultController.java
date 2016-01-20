@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,29 +28,30 @@ public class resultController {
 	{
 		UserInfo userinfo = new UserInfo();		
 		String userName = request.getParameter("username");	
-		System.out.println(userName);
+	//	System.out.println("userName= "+userName);
 		Map<String, Object> model = new HashMap<String, Object>();		
-		if(userName!=null)
-		{			
+		if(!(userName==""||userName==null||userName.isEmpty()))
+		{				
 			DBOperate dboperate = new DBOperate();
+		//	System.out.println("DBOperate new successfully!!");
 			userinfo.setUserName(userName);
-			userinfo.setLoginTime();		
+			userinfo.setLoginTime();				
 			ArrayList<UserInfo> allInfo = dboperate.getUserInfo(userinfo);
 			int number = allInfo.size();	
+		//	System.out.println("number = "+number);
 			if(number<=0)
 				number = 1;
 			model.put("user", userinfo);
 			model.put("number", number);
 			model.put("allInfo", allInfo);		
 			ModelAndView mav = new ModelAndView("message");
-			mav.addAllObjects(model);
-			
+			mav.addAllObjects(model);			
 			return mav;
 		}
 		else
 		{
 			ModelAndView mav = new ModelAndView("login");
-			mav.addObject("login", "your name is null, please input name!");
+			mav.addObject("your name is null, please input name!");
 			return mav;
 		}		
 	}	
